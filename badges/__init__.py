@@ -12,11 +12,13 @@ BADGE_PATTERN = r"\[badge(?::(\w+))?(.*?)\]"
 class BadgesInlineProcessor(InlineProcessor):
     def handleMatch(self, m, data):
         _type = m.group(1)
-        _text = m.group(2).strip()
+        _text = m.group(2).strip().split("|")
 
         _class = f'mdx-badge mdx-badge--{_type}' if _type else 'mdx-badge'
         el = etree.Element('span', {'class': _class})
-        el.text = _text
+        for t in _text:
+             text_el = etree.SubElement(el, 'span', {'class': 'mdx-badge__text'})
+             text_el.text = t
 
         return el, m.start(0), m.end(0)
 

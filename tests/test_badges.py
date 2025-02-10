@@ -9,7 +9,9 @@ def test_generic_untyped_badge_single_text():
     markdown_text = '[badge Text]'
 
     expected_html = R'''
-    <span class="mdx-badge">Text</span>
+    <span class="mdx-badge">
+    <span class="mdx-badge__text">Text</span>
+    </span>
     '''
 
     expected_html = "".join(textwrap.dedent(expected_html).strip().split("\n"))
@@ -23,11 +25,13 @@ def test_generic_untyped_badge_multiple_text():
     extension_configs = {}
     md = markdown.Markdown(extensions=extensions, extension_configs=extension_configs)
 
-    markdown_text = '[badge Text1|Text with spaces]'
+    markdown_text = '[badge Text1 with spaces|Text2 with spaces]'
 
     expected_html = R'''
-    <span class="mdx-badge">Text</span>
-    <span class="mdx-badge">Text with spaces</span>
+    <span class="mdx-badge">
+    <span class="mdx-badge__text">Text1 with spaces</span>
+    <span class="mdx-badge__text">Text2 with spaces</span>
+    </span>
     '''
 
     expected_html = "".join(textwrap.dedent(expected_html).strip().split("\n"))
@@ -44,7 +48,9 @@ def test_generic_typed_badge():
     markdown_text = '[badge:type Text]'
 
     expected_html = R'''
-    <span class="mdx-badge mdx-badge--type">Text</span>
+    <span class="mdx-badge mdx-badge--type">
+    <span class="mdx-badge__text">Text</span>
+    </span>
     '''
 
     expected_html = "".join(textwrap.dedent(expected_html).strip().split("\n"))
