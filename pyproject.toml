@@ -1,0 +1,109 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pymdown-badges-extension"
+dynamic = ["version"]
+description = "Python-Markdown extension for adding badgess to your Markdown documents."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+authors = [
+    { name = "Joan Puigcerver", email = "joapuiib@gmail.com" },
+]
+classifiers = [
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "pymdown-extensions>=10.14.3",
+    "Markdown>=3.6",
+]
+
+[project.urls]
+Documentation = "https://joapuiib.github.io/pymdown-badges-extension"
+Homepage = "https://joapuiib.github.io/pymdown-badges-extension"
+Source = "https://github.com/joapuiib/pymdown-badges-extension"
+Tracker = "https://github.com/joapuiib/pymdown-badges-extension/issues"
+
+[tool.hatch.version]
+path = "badges/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/badges",
+    "/tests",
+]
+[tool.hatch.build.targets.wheel]
+include = [
+    "/badges",
+]
+
+[tool.hatch.envs.default.scripts]
+all = [
+    "hatch run test:test",
+    "hatch run style:check",
+]
+
+[tool.hatch.envs.test]
+dependencies = [
+    "pytest",
+]
+
+[tool.hatch.envs.test.scripts]
+test = [
+    "pytest -vv",
+]
+
+[[tool.hatch.envs.test.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+type = ["default"]
+
+[tool.hatch.envs.doc]
+dependencies = [
+    "mkdocs-material[imaging]~=9.5",
+    "mkdocs-alias-plugin~=0.8",
+    "mkdocs-git-revision-date-localized-plugin~=1.2",
+]
+
+[tool.hatch.envs.doc.scripts]
+serve = [
+    "mkdocs serve",
+]
+build = [
+    "mkdocs build",
+]
+
+[tool.hatch.envs.style]
+detached = true
+dependencies = [
+    "black",
+    "isort",
+    "ruff",
+]
+
+[tool.hatch.envs.style.scripts]
+check = [
+    "isort --check-only --diff badges",
+    "black -q --check --diff badges",
+    "ruff check badges",
+]
+format = [
+    "isort -q badges",
+    "black -q badges",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+ignore = ["E501"]
