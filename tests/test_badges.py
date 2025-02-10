@@ -20,6 +20,7 @@ def test_generic_untyped_badge_single_text():
     html = md.convert(markdown_text)
     assert html == expected_html
 
+
 def test_generic_untyped_badge_multiple_text():
     extensions = ['badges']
     extension_configs = {}
@@ -40,6 +41,7 @@ def test_generic_untyped_badge_multiple_text():
     html = md.convert(markdown_text)
     assert html == expected_html
 
+
 def test_generic_typed_badge():
     extensions = ['badges']
     extension_configs = {}
@@ -58,3 +60,55 @@ def test_generic_typed_badge():
 
     html = md.convert(markdown_text)
     assert html == expected_html
+
+
+def test_config_class_badge():
+    extensions = ['badges']
+    extension_configs = {'badges': {'class': 'custom-badge'}}
+    md = markdown.Markdown(extensions=extensions, extension_configs=extension_configs)
+
+    markdown_text = '[badge:type Text]'
+
+    expected_html = R'''
+    <span class="custom-badge custom-badge--type">
+    <span class="custom-badge__text">Text</span>
+    </span>
+    '''
+
+    expected_html = "".join(textwrap.dedent(expected_html).strip().split("\n"))
+    expected_html = f"<p>{expected_html}</p>"
+
+    html = md.convert(markdown_text)
+    assert html == expected_html
+
+
+def test_typed_badge():
+    extensions = ['badges']
+    extension_configs = {'badges': {
+        'types': {
+            'tag': {
+                'title': 'Tag',
+                'text': 'Tag',
+                'icon': 'material-tag'
+            }
+        }
+    }}
+    md = markdown.Markdown(extensions=extensions, extension_configs=extension_configs)
+
+    markdown_text = '[badge:tag]'
+
+    expected_html = R'''
+    <span class="mdx-badge mdx-badge--tag">
+    <span class="mdx-badge__icon" title="Tag">:material-tag:</span>
+    <span class="mdx-badge__text">Tag</span>
+    </span>
+    '''
+
+    expected_html = "".join(textwrap.dedent(expected_html).strip().split("\n"))
+    expected_html = f"<p>{expected_html}</p>"
+
+    html = md.convert(markdown_text)
+    assert html == expected_html
+
+
+
